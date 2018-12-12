@@ -3,12 +3,16 @@
 'use strict';
 
 const testObj = {
-  title: 'Yahoo',
-  url: 'http://yahoo.com'
+  rating: 5
 };
 
+const id = 'cjplqkwo501uy0kx2slq99ait';
+
 $(function() {
-  api.createBookmark(testObj, function(res) {
+  api.deleteBookmark(id, function(res) {
     console.log(res);
+    api.getBookmarks(function(res) {
+      console.log(res);
+    });
   });
 });
