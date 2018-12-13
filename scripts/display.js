@@ -23,7 +23,7 @@ const bookmarkList = function() {
                 <label for="${bookmark.id}" class="lbl-toggle js-toggle">More Info</label>
                 <div class="collapsible-content">
                     <div class="content-inner">
-                        <h4>${bookmark.url}</h4>
+                        <a href="${bookmark.url}">${bookmark.url}</a>
                         <p>${bookmark.desc}</p>
                     </div>
                 </div>
@@ -58,27 +58,35 @@ const bookmarkList = function() {
   };
 
   const generateSidebarTemplate = function() {
+    const rating = store.filterDropdown;
+    const selected = 'selected="selected"';
+    console.log(rating, selected);
     return `
         <button class="js-add-bookmark">Add</button>
-        <select name="" id="" class="js-filter-stars">
-            <option value="all">Filter stars</option>
-            <option value="fivestars">5 Stars or higher</option>
-            <option value="fourstars">4 Stars or higher</option>
-            <option value="threestars">3 Stars or higher</option>
-            <option value="twostars">2 Stars or higher</option>
-            <option value="onestars">1 Star or higher</option>
+        <select name="filter" id="filter" class="js-filter-stars">
+            <option value="all" ${(rating === 0) ? selected : ''}>Filter stars</option>
+            <option value="5" ${(rating === 5) ? selected : ''}>5 Stars or higher</option>
+            <option value="4" ${(rating === 4) ? selected : ''}>4 Stars or higher</option>
+            <option value="3" ${(rating === 3) ? selected : ''}>3 Stars or higher</option>
+            <option value="2" ${(rating === 2) ? selected : ''}>2 Stars or higher</option>
+            <option value="1" ${(rating === 1) ? selected : ''}>1 Star or higher</option>
         </select>
       `;
   };
 
   function generateBookmarkString(bookmarkList) {
-    const bookmarks = bookmarkList.map((bookmark) => template(bookmark));
+    const starRating = store.filterDropdown;
+    const filteredBookmarks = store.filterByStars(starRating);
+    const bookmarks = filteredBookmarks.map((bookmark) => template(bookmark));
     return bookmarks.join('');
   }
 
   function render() {
     let bookmarks = store.bookmarks;
+    let starRating = store.filterDropdown;
+    let sidebar = generateSidebarTemplate();
     let html = '';
+    // console.log(store.filterByStars(5));
 
     // Tests if user clicked the "Add" button
     if (store.add) {
@@ -87,10 +95,10 @@ const bookmarkList = function() {
     html += generateBookmarkString(bookmarks);
 
     
-    $('.js-sidebar').html(generateSidebarTemplate());
+    $('.js-sidebar').html(sidebar);
     $('.bookmarks').html(html);
 
-    console.log('render function ran');
+    console.log('render function ran', starRating);
   }
 
   function getBookmarkIdFromElement(bookmark) {
@@ -146,11 +154,25 @@ const bookmarkList = function() {
     });
   }
 
+  function handleFilterStarsDropdown() {
+    $('.js-sidebar').on('change', '.js-filter-stars', function(e) {
+      let value = $(this).val();
+
+      // Attempt to coerce value to a number. If not a number, we return 0
+      let numberFix = function(value) {
+        return isNaN(value) ? 0 : Number(value);
+      };
+      store.filterDropdown = numberFix(value);
+      render();
+    });
+  }
+
   function bindEventListeners() {
     handleAddBookmarkClicked();
     handleAddBookmarkSubmit();
     handleDeleteBookmarkClicked();
     handleCollapseBookmarkClick();
+    handleFilterStarsDropdown();
   }
 
   return {

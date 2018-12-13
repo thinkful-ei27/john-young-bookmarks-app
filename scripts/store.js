@@ -23,13 +23,19 @@ const store = function() {
     this.bookmarks = this.bookmarks.filter(item => item.id !== id);
   };
 
+  const filterByStars = function(rating) {
+    return this.bookmarks.filter(bookmark => bookmark.rating >= rating);
+  };
+
   return {
     bookmarks: [],
     // Add toggles the 'Add Bookmark' form
     add: false,
+    filterDropdown: 0,
     addBookmark,
     findById,
     findAndUpdate, 
-    findAndDelete
+    findAndDelete,
+    filterByStars
   };
 }();

@@ -1,4 +1,4 @@
-/* global $, api, store */
+/* global $, api, store, bookmarkList */
 
 'use strict';
 
