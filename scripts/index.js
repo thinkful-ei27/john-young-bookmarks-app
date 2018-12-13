@@ -1,4 +1,4 @@
-/* global $, api */
+/* global $, api, store */
 
 'use strict';
 
@@ -16,9 +16,7 @@ const testObj2 = {
   rating: 4
 };
 
-api.getBookmarks(function(res) {
-  console.log(res);
-});
+
 
 // api.createBookmark(testObj2, function(res) {
 //     console.log('Bookmark created successfully');
@@ -34,5 +32,11 @@ api.getBookmarks(function(res) {
 
 
 $(function() {
+  bookmarkList.render();
+  api.getBookmarks(function(bookmarks) {
+    bookmarks.forEach((bookmark) => store.addBookmark(bookmark));
+    bookmarkList.render();
+    console.log('store after render is ', store.bookmarks);
+  });
 
 });

@@ -14,6 +14,9 @@ const api = function() {
     $.getJSON(`${BASE_URL}/bookmarks`, callback);
   };
 
+  // Creates a bookmark and requires a request body
+  // Required: title, url
+  // Optional: desc, rating
   const createBookmark = function(body, callback) {
     const newBookmark = JSON.stringify(body);
 
