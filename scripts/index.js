@@ -18,9 +18,9 @@ const testObj2 = {
 
 
 
-// api.createBookmark(testObj2, function(res) {
-//     console.log('Bookmark created successfully');
-//   });
+// api.createBookmark(testObj, function(res) {
+//   console.log('Bookmark created successfully');
+// });
 
 // api.deleteBookmark(id, function(res) {
 //     console.log(res);
@@ -32,6 +32,7 @@ const testObj2 = {
 
 
 $(function() {
+  bookmarkList.bindEventListeners();
   bookmarkList.render();
   api.getBookmarks(function(bookmarks) {
     bookmarks.forEach((bookmark) => store.addBookmark(bookmark));

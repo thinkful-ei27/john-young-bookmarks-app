@@ -9,6 +9,8 @@ $.fn.extend({
     formData.forEach((val, key) => {
       obj[key] = val;
     });
-    return JSON.stringify(obj);
+    const num = Number(obj.rating);
+    obj.rating = num;
+    return obj;
   }
 });
