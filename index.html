@@ -5,10 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>John Young Bookmarks App</title>
+    <link rel="stylesheet" href="./styles/index.css">
+    <link rel="stylesheet" href="./styles/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
+    <header>
+        <div class="container">
+            <div class="twelve columns centered">
+                <h1>Linkful</h1>
+            </div>
+        </div>
+    </header>
+
+    <section>
+        <div class="container centered">
+            <div class="row">
+                <div class="two columns">
+                    <button>Button</button>
+                    <select name="" id="">
+                        <option value="all">Filter stars</option>
+                        <option value="fivestars">5 Stars or higher</option>
+                        <option value="fourstars">4 Stars or higher</option>
+                        <option value="threestars">3 Stars or higher</option>
+                        <option value="twostars">2 Stars or higher</option>
+                        <option value="onestars">1 Star or higher</option>
+                    </select>
+                </div>
+                <div class="ten columns bookmarks">
+                    <form action="">
+                        <h3>Add Bookmark</h3>
+                        <label for="title"></label>
+                        <input name="title" id="unique-title" type="text" placeholder="Enter Title">
+
+                        <label for="url"></label>
+                        <input name="url" id="unique-title" type="text" placeholder="Enter URL">
+
+                        <label for="description"></label>
+                        <textarea name="description" id="" cols="30" rows="10" placeholder="Enter description"></textarea><br>
+
+                        <label for="stars"></label>
+                        <input type="radio" name="stars" id="">1
+                        <input type="radio" name="stars" id="">2
+                        <input type="radio" name="stars" id="">3
+                        <input type="radio" name="stars" id="">4
+                        <input type="radio" name="stars" id="">5<br>
+
+                        <input type="submit" value="Submit">
+                    </form>
+                    <div class="bookmark">
+                        <button class="remove">X</button>
+                        <h3>Name</h3>
+                        <a href="www.google.com"><h4>URL</h4></a>
+                        <p>Link description</p>
+                        <div class="stars-outer">
+                            <div class="stars-inner"></div>
+                        </div>
+                    </div>
+                    <div class="bookmark">
+                        <button class="remove">X</button>
+                        <h3>Name</h3>
+                        <h4>URL</h4>
+                        <p>Link description</p>
+                        <div class="stars-outer">
+                            <div class="stars-inner"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     
+
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="./scripts/extendJquery.js"></script>
     <script src="./scripts/api.js"></script>
     <script src="./scripts/store.js"></script>
     <script src="./scripts/display.js"></script>
