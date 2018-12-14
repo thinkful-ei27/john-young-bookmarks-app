@@ -22,7 +22,8 @@ header {
 .bookmark {
     /* border: black;
     border-style: solid; */
-    box-shadow: 2px 3px 4px 0px rgba(0,0,0,0.75);
+    /* box-shadow: 2px 3px 4px 0px rgba(0,0,0,0.75); */
+    box-shadow: rgba(0, 0, 0, 0.156863) 0px 2px 5px 0px, rgba(0, 0, 0, 0.117647) 0px 2px 10px 0px;
     margin: 20px;
 }
 

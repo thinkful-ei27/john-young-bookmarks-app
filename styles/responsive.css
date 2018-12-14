@@ -207,6 +207,16 @@ html {
     color: #FFF;
     background-color: #1EAEDB;
     border-color: #1EAEDB; }
+  .button.remove,
+  button.remove:hover {
+    color: #FFF;
+    background-color: #f44336;
+    border-color: #f44336; }
+  button.remove {
+    color: #f44336;
+    background-color: #FFF;
+    border: none;
+  }
 
 /* Forms
 –––––––––––––––––––––––––––––––––––––––––––––––––– */

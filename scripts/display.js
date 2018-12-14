@@ -63,7 +63,8 @@ const bookmarkList = function() {
     const rating = store.filterDropdown;
     const selected = 'selected="selected"';
     return `
-        <button class="js-add-bookmark">Add</button>
+      <div class="wrapper">
+        <button class="js-add-bookmark button-primary">Add</button>
         <select name="filter" id="filter" class="js-filter-stars">
             <option value="all" ${(rating === 0) ? selected : ''}>Filter stars</option>
             <option value="5" ${(rating === 5) ? selected : ''}>5 Stars or higher</option>
@@ -72,6 +73,7 @@ const bookmarkList = function() {
             <option value="2" ${(rating === 2) ? selected : ''}>2 Stars or higher</option>
             <option value="1" ${(rating === 1) ? selected : ''}>1 Star or higher</option>
         </select>
+      </div>
       `;
   };
 
