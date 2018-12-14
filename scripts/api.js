@@ -1,4 +1,4 @@
-/* global $ */
+/* global $, store, bookmarks */
 
 'use strict';
 

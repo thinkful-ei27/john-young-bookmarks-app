@@ -24,7 +24,7 @@ const bookmarkList = function() {
                 <label for="${bookmark.id}" class="lbl-toggle js-toggle">More Info</label>
                 <div class="collapsible-content">
                     <div class="content-inner">
-                        <a href="${bookmark.url}">${bookmark.url}</a>
+                        <a href="${bookmark.url}">Visit Site</a>
                         <p>${bookmark.desc}</p>
                     </div>
                 </div>
@@ -47,14 +47,14 @@ const bookmarkList = function() {
             <label for="desc"></label>
             <textarea required name="desc" id="" cols="30" rows="10" placeholder="Enter description"></textarea><br>
 
-            <label for="rating"></label>
+            <label for="rating">Enter bookmark rating</label>
             <input type="radio" name="rating" id="" value=1>1
             <input type="radio" name="rating" id="" value=2>2
             <input type="radio" name="rating" id="" value=3>3
             <input type="radio" name="rating" id="" value=4>4
             <input required type="radio" name="rating" id="" value=5>5<br>
 
-            <input type="submit" value="Submit">
+            <input class="button-primary" type="submit" value="Submit">
         </form>
       `;
   };
