@@ -5,11 +5,6 @@
 const api = function() {
   const BASE_URL = 'https://thinkful-list-api.herokuapp.com/johnyoung';
 
-  const errorCallback = function(error) {
-    store.errorMessage(error.responseJSON.message);
-    bookmarks.render();
-  };
-
   const getBookmarks = function(callback) {
     $.getJSON(`${BASE_URL}/bookmarks`, callback);
   };
@@ -17,7 +12,7 @@ const api = function() {
   // Creates a bookmark and requires a request body
   // Required: title, url
   // Optional: desc, rating
-  const createBookmark = function(body, callback) {
+  const createBookmark = function(body, callback, err) {
     const newBookmark = JSON.stringify(body);
 
     $.ajax({
@@ -26,28 +21,28 @@ const api = function() {
       contentType: 'application/json',
       data: newBookmark,
       success: callback,
-      error: api.errorCallback
+      error: err
     });
   };
 
-  const updateBookmark = function(id, updateData, callback) {
+  const updateBookmark = function(id, updateData, callback, err) {
     $.ajax({
       url: `${BASE_URL}/bookmarks/${id}`,
       method: 'PATCH',
       contentType: 'application/json',
       data: JSON.stringify(updateData),
       success: callback,
-      error: api.errorCallback
+      error: err
     });
   };
 
-  const deleteBookmark = function(id, callback) {
+  const deleteBookmark = function(id, callback, err) {
     $.ajax({
       url: `${BASE_URL}/bookmarks/${id}`,
       method: 'DELETE',
       contentType: 'application/json',
       success: callback,
-      error: api.errorCallback
+      error: err
     });
   };
 
@@ -55,7 +50,6 @@ const api = function() {
     getBookmarks,
     createBookmark,
     updateBookmark,
-    deleteBookmark,
-    errorCallback
+    deleteBookmark
   };
 }();

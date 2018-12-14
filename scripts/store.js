@@ -4,6 +4,9 @@
 
 const store = function() {
 //   const bookmarks = [];
+  const setError = function(error) {
+    this.error = error;
+  };
 
   const addBookmark = function(bookmark) {
     bookmark.expanded = false;
@@ -32,7 +35,9 @@ const store = function() {
     // Add toggles the 'Add Bookmark' form
     add: false,
     filterDropdown: 0,
+    error: false,
     addBookmark,
+    setError,
     findById,
     findAndUpdate, 
     findAndDelete,

@@ -4,6 +4,19 @@
 
 const bookmarkList = function() {
 
+  function generateError(err) {
+    let message = '';
+    if (err.responseJSON && err.responseJSON.message) {
+      message = err.responseJSON.message;
+    } else {
+      message = `${err.code} Server Error`;
+    }
+
+    return `
+      <p>${message}</p>
+    `;
+  }
+
   const starsTemplate = function(rating) {
     const star = '<i class="fa fa-star"></i>';
     return star.repeat(rating);
@@ -14,7 +27,8 @@ const bookmarkList = function() {
     return `
         <div class="bookmark" data-bookmark-id="${bookmark.id}">
           <div class="wrapper">
-            <button class="remove">X</button>
+            <button class="edit"><i class="fa fa-edit"></i>Edit bookmark</button>
+            <button class="remove">X Remove bookmark</button>
             <h3>${bookmark.title}</h3>
             <div class="stars-inner">
                 ${starsTemplate(bookmark.rating)}
@@ -38,24 +52,63 @@ const bookmarkList = function() {
     return `
         <form action="">
             <h3>Add Bookmark</h3>
-            <label for="title"></label>
-            <input required name="title" id="unique-title" type="text" placeholder="Enter Title">
+            <fieldset name="add-a-bookmark">
+              <legend>Bookmark info</legend>
+              <label for="title"></label>
+              <input name="title" id="title" type="text" placeholder="Enter Title">
 
-            <label for="url"></label>
-            <input required name="url" id="unique-title" type="url" placeholder="Enter URL">
+              <label for="url"></label>
+              <input name="url" id="url" type="text" placeholder="Enter URL">
 
-            <label for="desc"></label>
-            <textarea required name="desc" id="" cols="30" rows="10" placeholder="Enter description"></textarea><br>
+              <label for="desc"></label>
+              <textarea name="desc" id="desc" cols="30" rows="10" placeholder="Enter description"></textarea><br>
 
-            <label for="rating">Enter bookmark rating</label>
-            <input type="radio" name="rating" id="" value=1>1
-            <input type="radio" name="rating" id="" value=2>2
-            <input type="radio" name="rating" id="" value=3>3
-            <input type="radio" name="rating" id="" value=4>4
-            <input required type="radio" name="rating" id="" value=5>5<br>
+              <label for="rating">Enter bookmark rating</label>
+              <input type="radio" name="rating" id="rating" value=1>1
+              <input type="radio" name="rating" id="rating" value=2>2
+              <input type="radio" name="rating" id="rating" value=3>3
+              <input type="radio" name="rating" id="rating" value=4>4
+              <input type="radio" name="rating" id="rating" value=5>5<br>
 
-            <input class="button-primary" type="submit" value="Submit">
+              <div class="row">
+                <div class="two columns">
+                  <input class="button-primary" type="submit" value="Submit">
+                </div>
+                <div class="ten columns error-container">
+                </div>
+              </div>
+            </fieldset>
         </form>
+      `;
+  };
+
+  const editBookmarkTemplate = function() {
+    return `
+      <div class="wrapper">
+        <form action="">
+            <h3>Edit Bookmark</h3>
+            <fieldset name="edit-a-bookmark">
+              <legend>Bookmark info</legend>
+              <label for="title"></label>
+              <input name="title" id="title" type="text" placeholder="Enter Title">
+
+              <label for="rating">Enter bookmark rating</label>
+              <input type="radio" name="rating" id="rating" value=1>1
+              <input type="radio" name="rating" id="rating" value=2>2
+              <input type="radio" name="rating" id="rating" value=3>3
+              <input type="radio" name="rating" id="rating" value=4>4
+              <input type="radio" name="rating" id="rating" value=5>5<br>
+
+              <div class="row">
+                <div class="two columns">
+                  <input class="button-primary" type="submit" value="Submit">
+                </div>
+                <div class="ten columns error-container">
+                </div>
+              </div>
+            </fieldset>
+        </form>
+      </div>
       `;
   };
 
@@ -99,6 +152,13 @@ const bookmarkList = function() {
     $('.js-sidebar').html(sidebar);
     $('.bookmarks').html(html);
 
+    if (store.error) {
+      const el = generateError(store.error);
+      $('div.error-container').html(el);
+    } else {
+      $('div.error-container').empty();
+    }
+
     console.log(`render function ran, new store is ${store}`);
   }
 
@@ -122,6 +182,9 @@ const bookmarkList = function() {
         let id = res.id;
         obj.id = id;
         store.addBookmark(obj);
+        render();
+      }, function(err) {
+        store.setError(err);
         render();
       });
     });
@@ -165,12 +228,23 @@ const bookmarkList = function() {
     });
   }
 
+  function handleEditBookmarkClicked() {
+    $('.bookmarks').on('click', '.edit', function(e) {
+      e.preventDefault();
+      const id = getBookmarkIdFromElement(e.currentTarget);
+      let html = editBookmarkTemplate();
+      // $('.bookmarks .bookmark').html(html);
+      console.log('edit button successfully clicked', id);
+    });
+  }
+
   function bindEventListeners() {
     handleAddBookmarkClicked();
     handleAddBookmarkSubmit();
     handleDeleteBookmarkClicked();
     handleCollapseBookmarkClick();
     handleFilterStarsDropdown();
+    handleEditBookmarkClicked();
   }
 
   return {
