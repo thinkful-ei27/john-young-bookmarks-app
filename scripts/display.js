@@ -24,15 +24,24 @@ const bookmarkList = function() {
 
   const template = function(bookmark) {
     const expanded = bookmark.expanded;
+
+    let bookmarkTitle = `
+        <button class="edit"><i class="fa fa-edit"></i>Edit bookmark</button>
+        <button class="remove">X Remove bookmark</button>
+        <h3 class="bookmark-title">${bookmark.title}</h3>
+        <div class="stars-inner" data-bookmark-rating="${bookmark.rating}">
+            ${starsTemplate(bookmark.rating)}
+        </div>
+      `;
+    
+    if (bookmark.isEditing) {
+      bookmarkTitle = editBookmarkTemplate();
+    }
+
     return `
         <div class="bookmark" data-bookmark-id="${bookmark.id}">
           <div class="wrapper">
-            <button class="edit"><i class="fa fa-edit"></i>Edit bookmark</button>
-            <button class="remove">X Remove bookmark</button>
-            <h3>${bookmark.title}</h3>
-            <div class="stars-inner">
-                ${starsTemplate(bookmark.rating)}
-            </div>
+            ${bookmarkTitle}
             <div class="wrap-collapsible">
                 <input id="${bookmark.id}" class="toggle" type="checkbox" ${expanded ? 'checked' : ''}>
                 <label for="${bookmark.id}" class="lbl-toggle js-toggle">More Info</label>
@@ -82,10 +91,10 @@ const bookmarkList = function() {
       `;
   };
 
-  const editBookmarkTemplate = function() {
+  const editBookmarkTemplate = function(bookmark) {
     return `
       <div class="wrapper">
-        <form action="">
+        <form action="" class="js-edit-bookmark">
             <h3>Edit Bookmark</h3>
             <fieldset name="edit-a-bookmark">
               <legend>Bookmark info</legend>
@@ -232,9 +241,32 @@ const bookmarkList = function() {
     $('.bookmarks').on('click', '.edit', function(e) {
       e.preventDefault();
       const id = getBookmarkIdFromElement(e.currentTarget);
-      let html = editBookmarkTemplate();
-      // $('.bookmarks .bookmark').html(html);
+      store.setItemIsEditing(id, true);
+      render();
       console.log('edit button successfully clicked', id);
+    });
+  }
+
+  function handleEditBookmarkSubmit() {
+    $('.bookmarks').on('submit', '.js-edit-bookmark', function(e) {
+      e.preventDefault();
+      const id = getBookmarkIdFromElement(this);
+      const bookmarkName = $(e.currentTarget).find('.bookmark-title').val();
+      const rating = $(e.currentTarget).find('.bookmark-title').data('bookmark-rating');
+      const objData = {
+        name: bookmarkName,
+        rating: rating
+      };
+      console.log(bookmarkName, rating, objData);
+      api.updateBookmark(id, updateData, function() {
+        store.findAndUpdate(id, updateData);
+        store.setItemIsEditing(id, false);
+        render();
+      }, function(err) {
+        console.log(err);
+        store.setError(err);
+        render();
+      });
     });
   }
 
@@ -245,6 +277,7 @@ const bookmarkList = function() {
     handleCollapseBookmarkClick();
     handleFilterStarsDropdown();
     handleEditBookmarkClicked();
+    handleEditBookmarkSubmit();
   }
 
   return {

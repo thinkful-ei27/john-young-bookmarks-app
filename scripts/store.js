@@ -30,17 +30,24 @@ const store = function() {
     return this.bookmarks.filter(bookmark => bookmark.rating >= rating);
   };
 
+  const setItemIsEditing = function(id, isEditing) {
+    const item = this.findById(id);
+    item.isEditing = isEditing;
+  };
+
   return {
     bookmarks: [],
     // Add toggles the 'Add Bookmark' form
     add: false,
     filterDropdown: 0,
     error: false,
+    isEditing: false,
     addBookmark,
     setError,
     findById,
     findAndUpdate, 
     findAndDelete,
-    filterByStars
+    filterByStars,
+    setItemIsEditing
   };
 }();
