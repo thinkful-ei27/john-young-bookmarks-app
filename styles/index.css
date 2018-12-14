@@ -51,7 +51,8 @@ button.remove:hover {
   border-color: #f44336;
 }
 
-button.remove {
+button.remove,
+button.js-cancel-add {
   color: #f44336;
   background-color: #FFF;
   border: none;

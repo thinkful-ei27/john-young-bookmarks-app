@@ -133,9 +133,10 @@ const bookmarkList = function() {
   const generateSidebarTemplate = function() {
     const rating = store.filterDropdown;
     const selected = 'selected="selected"';
+    const add = store.add;
     return `
       <div class="wrapper">
-        <button class="js-add-bookmark button-primary">Add</button>
+        <button class="js-add-bookmark ${add ? 'js-cancel-add' : 'button-primary'}">${add ? 'Cancel' : 'Add'}</button>
         <select name="filter" id="filter" class="js-filter-stars">
             <option value="all" ${(rating === 0) ? selected : ''}>Filter stars</option>
             <option value="5" ${(rating === 5) ? selected : ''}>5 Stars or higher</option>
