@@ -35,11 +35,11 @@ const bookmarkList = function() {
       `;
     
     if (bookmark.isEditing) {
-      bookmarkTitle = editBookmarkTemplate();
+      bookmarkTitle = editBookmarkTemplate(bookmark);
     }
 
     return `
-        <div class="bookmark" data-bookmark-id="${bookmark.id}">
+        <div class="bookmark" data-bookmark-id="${bookmark.id}" data-bookmark-title="${bookmark.title}" data-bookmark-rating="${bookmark.rating}">
           <div class="wrapper">
             ${bookmarkTitle}
             <div class="wrap-collapsible">
@@ -59,7 +59,7 @@ const bookmarkList = function() {
 
   const addBookmarkTemplate = function () {
     return `
-        <form action="">
+        <form action="" class="js-add-bookmark">
             <h3>Add Bookmark</h3>
             <fieldset name="add-a-bookmark">
               <legend>Bookmark info</legend>
@@ -99,7 +99,7 @@ const bookmarkList = function() {
             <fieldset name="edit-a-bookmark">
               <legend>Bookmark info</legend>
               <label for="title"></label>
-              <input name="title" id="title" type="text" placeholder="Enter Title">
+              <input name="title" id="title" type="text" placeholder="${bookmark.title}">
 
               <label for="rating">Enter bookmark rating</label>
               <input type="radio" name="rating" id="rating" value=1>1
@@ -108,11 +108,14 @@ const bookmarkList = function() {
               <input type="radio" name="rating" id="rating" value=4>4
               <input type="radio" name="rating" id="rating" value=5>5<br>
 
-              <div class="row">
+              <div class="row js-edit-submit">
                 <div class="two columns">
-                  <input class="button-primary" type="submit" value="Submit">
+                  <input class="button-primary js-edit-submit-button" type="submit" value="submit">
                 </div>
-                <div class="ten columns error-container">
+                <div class="two columns">
+                  <button class="js-cancel-button">Cancel</button>
+                </div>
+                <div class="eight columns error-container">
                 </div>
               </div>
             </fieldset>
@@ -184,12 +187,13 @@ const bookmarkList = function() {
   }
 
   function handleAddBookmarkSubmit() {
-    $('div.bookmarks').on('submit', 'form', function(e) {
+    $('div.bookmarks').on('submit', 'form.js-add-bookmark', function(e) {
       e.preventDefault();
       let obj = $(this).serializeJson();
       api.createBookmark(obj, function(res) {
         let id = res.id;
         obj.id = id;
+        store.error = undefined;
         store.addBookmark(obj);
         render();
       }, function(err) {
@@ -240,6 +244,7 @@ const bookmarkList = function() {
   function handleEditBookmarkClicked() {
     $('.bookmarks').on('click', '.edit', function(e) {
       e.preventDefault();
+      store.error = undefined;
       const id = getBookmarkIdFromElement(e.currentTarget);
       store.setItemIsEditing(id, true);
       render();
@@ -251,15 +256,9 @@ const bookmarkList = function() {
     $('.bookmarks').on('submit', '.js-edit-bookmark', function(e) {
       e.preventDefault();
       const id = getBookmarkIdFromElement(this);
-      const bookmarkName = $(e.currentTarget).find('.bookmark-title').val();
-      const rating = $(e.currentTarget).find('.bookmark-title').data('bookmark-rating');
-      const objData = {
-        name: bookmarkName,
-        rating: rating
-      };
-      console.log(bookmarkName, rating, objData);
-      api.updateBookmark(id, updateData, function() {
-        store.findAndUpdate(id, updateData);
+      let obj = $(this).serializeJson();
+      api.updateBookmark(id, obj, function() {
+        store.findAndUpdate(id, obj);
         store.setItemIsEditing(id, false);
         render();
       }, function(err) {
@@ -267,6 +266,16 @@ const bookmarkList = function() {
         store.setError(err);
         render();
       });
+    });
+  }
+
+  function handleEditBookmarkCancel() {
+    $('.bookmarks').on('click', '.js-cancel-button', function(e) {
+      e.preventDefault();
+      const id = getBookmarkIdFromElement(e.currentTarget);
+      store.setItemIsEditing(id, false);
+      render();
+      console.log('cancel button clicked');
     });
   }
 
@@ -278,6 +287,7 @@ const bookmarkList = function() {
     handleFilterStarsDropdown();
     handleEditBookmarkClicked();
     handleEditBookmarkSubmit();
+    handleEditBookmarkCancel();
   }
 
   return {
