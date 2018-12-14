@@ -32,8 +32,8 @@ const bookmarkList = function() {
     const expanded = bookmark.expanded;
 
     let bookmarkTitle = `
-        <button class="edit"><i class="fa fa-edit"></i>Edit bookmark</button>
-        <button class="remove">X Remove bookmark</button>
+        <button class="edit"><i class="fa fa-edit"></i><span class="edit-bookmark-text">Edit bookmark</span></button>
+        <button class="remove">X <span class="remove-bookmark-text">Remove bookmark<span></button>
         <h3 class="bookmark-title">${bookmark.title}</h3>
         <div class="stars-inner" data-bookmark-rating="${bookmark.rating}">
             ${starsTemplate(bookmark.rating)}

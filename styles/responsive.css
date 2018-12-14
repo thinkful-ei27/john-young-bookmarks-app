@@ -10,14 +10,24 @@
   box-sizing: border-box;
 }
 
+.edit-bookmark-text,
+.remove-bookmark-text {
+  display: none;
+}
+
 /* Grid
 ----------------------------------------------------------------*/
+
+.container,
+.wrapper {
+  min-width: 217px;
+}
 
 .container {
     position: relative;
     width: 100%;
     max-width: 960px;
-    margin: 0 auto;
+    margin: auto;
     padding: 0 20px;
     box-sizing: border-box;
 }
@@ -26,7 +36,7 @@
   position: relative;
   width: 100%;
   max-width: 960px;
-  margin: 0 auto;
+  margin: auto;
   padding: 10px;
   box-sizing: border-box;
 }
@@ -46,8 +56,15 @@
     }
 }
 
-/* Larger than phablet (also point when grid becomes active) */
 @media (min-width: 550px) {
+  .edit-bookmark-text,
+  .remove-bookmark-text {
+    display: inline;
+  }
+}
+
+/* Larger than desktop (also point when grid becomes active, 550) */
+@media (min-width: 1000px) {
     .container {
         width: 80%;
     }
