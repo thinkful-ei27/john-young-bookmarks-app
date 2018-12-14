@@ -8,6 +8,10 @@ const store = function() {
     this.error = error;
   };
 
+  const setSuccess = function(success) {
+    this.success = success;
+  };
+
   const addBookmark = function(bookmark) {
     bookmark.expanded = false;
     this.bookmarks.push(bookmark);
@@ -41,6 +45,7 @@ const store = function() {
     add: false,
     filterDropdown: 0,
     error: false,
+    success: false,
     isEditing: false,
     addBookmark,
     setError,
@@ -48,6 +53,7 @@ const store = function() {
     findAndUpdate, 
     findAndDelete,
     filterByStars,
-    setItemIsEditing
+    setItemIsEditing,
+    setSuccess
   };
 }();

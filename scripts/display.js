@@ -17,6 +17,12 @@ const bookmarkList = function() {
     `;
   }
 
+  function generateSuccess() {
+    return `
+      <p class="success">Success! New item placed at the end of bookmarks.</p>
+    `;
+  }
+
   const starsTemplate = function(rating) {
     const star = '<i class="fa fa-star"></i>';
     return star.repeat(rating);
@@ -166,7 +172,10 @@ const bookmarkList = function() {
 
     if (store.error) {
       const el = generateError(store.error);
-      $('div.error-container').html(el);
+      $('div.error-container').html(el).addClass('error');
+    } else if (store.success) {
+      const succ = generateSuccess();
+      $('div.error-container').html(succ).addClass('success');
     } else {
       $('div.error-container').empty();
     }
@@ -182,6 +191,7 @@ const bookmarkList = function() {
     $('.js-sidebar').on('click', '.js-add-bookmark', function(e) {
       e.preventDefault();
       store.error = undefined;
+      store.success = false;
       store.add = !store.add;
       render();
     });
@@ -195,6 +205,7 @@ const bookmarkList = function() {
         let id = res.id;
         obj.id = id;
         store.error = undefined;
+        store.setSuccess(true);
         store.addBookmark(obj);
         render();
       }, function(err) {

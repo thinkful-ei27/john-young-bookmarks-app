@@ -125,9 +125,14 @@ button.edit {
 /* Error Handling
 ----------------------------------------------------------------*/
 
-.error-container {
+.error-container.error {
     display: inline;
     color: red;
     background-color: #FEEAED;
-    text-emphasis: filled double-circle blue;
+}
+
+.error-container.success {
+    display: inline;
+    color: darkgreen;
+    background-color: lightgreen;
 }
