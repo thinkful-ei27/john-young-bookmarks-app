@@ -180,8 +180,6 @@ const bookmarkList = function() {
     } else {
       $('div.error-container').empty();
     }
-
-    console.log(`render function ran, new store is ${store}`);
   }
 
   function getBookmarkIdFromElement(bookmark) {
@@ -262,7 +260,6 @@ const bookmarkList = function() {
       const id = getBookmarkIdFromElement(e.currentTarget);
       store.setItemIsEditing(id, true);
       render();
-      console.log('edit button successfully clicked', id);
     });
   }
 
@@ -276,7 +273,6 @@ const bookmarkList = function() {
         store.setItemIsEditing(id, false);
         render();
       }, function(err) {
-        console.log(err);
         store.setError(err);
         render();
       });
@@ -289,7 +285,6 @@ const bookmarkList = function() {
       const id = getBookmarkIdFromElement(e.currentTarget);
       store.setItemIsEditing(id, false);
       render();
-      console.log('cancel button clicked');
     });
   }
 
