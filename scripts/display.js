@@ -1,4 +1,4 @@
-/* global $, store, api */
+/* global $, store, api, accessibility */
 
 'use strict';
 
@@ -50,7 +50,7 @@ const bookmarkList = function() {
             ${bookmarkTitle}
             <div class="wrap-collapsible">
                 <input id="${bookmark.id}" class="toggle" type="checkbox" ${expanded ? 'checked' : ''}>
-                <label for="${bookmark.id}" class="lbl-toggle js-toggle">More Info</label>
+                <label for="${bookmark.id}" class="lbl-toggle js-toggle" tabindex="0">More Info</label>
                 <div class="collapsible-content">
                     <div class="content-inner">
                         <a href="${bookmark.url}">Visit Site</a>
@@ -148,7 +148,7 @@ const bookmarkList = function() {
       `;
   };
 
-  function generateBookmarkString(bookmarkList) {
+  function generateBookmarkString() {
     const starRating = store.filterDropdown;
     const filteredBookmarks = store.filterByStars(starRating);
     const bookmarks = filteredBookmarks.map((bookmark) => template(bookmark));
@@ -237,6 +237,7 @@ const bookmarkList = function() {
       };
       store.findAndUpdate(id, updateData);
       render();
+      accessibility.allowSpacebarAndEnter();
     });
   }
 

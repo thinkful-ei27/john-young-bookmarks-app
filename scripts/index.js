@@ -1,8 +1,9 @@
-/* global $, api, store, bookmarkList */
+/* global $, api, store, bookmarkList, accessibility */
 
 'use strict';
 
 $(function() {
+  accessibility.allowSpacebarAndEnter();
   bookmarkList.bindEventListeners();
   bookmarkList.render();
   api.getBookmarks(function(bookmarks) {
