@@ -1,4 +1,4 @@
-/* global $, store */
+/* global $, store, api */
 
 'use strict';
 
@@ -13,6 +13,7 @@ const bookmarkList = function() {
     const expanded = bookmark.expanded;
     return `
         <div class="bookmark" data-bookmark-id="${bookmark.id}">
+          <div class="wrapper">
             <button class="remove">X</button>
             <h3>${bookmark.title}</h3>
             <div class="stars-inner">
@@ -28,6 +29,7 @@ const bookmarkList = function() {
                     </div>
                 </div>
             </div>
+          </div>
         </div>
         `;
   };
@@ -60,7 +62,6 @@ const bookmarkList = function() {
   const generateSidebarTemplate = function() {
     const rating = store.filterDropdown;
     const selected = 'selected="selected"';
-    console.log(rating, selected);
     return `
         <button class="js-add-bookmark">Add</button>
         <select name="filter" id="filter" class="js-filter-stars">
@@ -83,10 +84,8 @@ const bookmarkList = function() {
 
   function render() {
     let bookmarks = store.bookmarks;
-    let starRating = store.filterDropdown;
     let sidebar = generateSidebarTemplate();
     let html = '';
-    // console.log(store.filterByStars(5));
 
     // Tests if user clicked the "Add" button
     if (store.add) {
@@ -98,7 +97,7 @@ const bookmarkList = function() {
     $('.js-sidebar').html(sidebar);
     $('.bookmarks').html(html);
 
-    console.log('render function ran', starRating);
+    console.log(`render function ran, new store is ${store}`);
   }
 
   function getBookmarkIdFromElement(bookmark) {
@@ -110,7 +109,6 @@ const bookmarkList = function() {
       e.preventDefault();
       store.add = !store.add;
       render();
-      console.log(this);
     });
   }
 
@@ -118,7 +116,6 @@ const bookmarkList = function() {
     $('div.bookmarks').on('submit', 'form', function(e) {
       e.preventDefault();
       let obj = $(this).serializeJson();
-      console.log(typeof obj);
       api.createBookmark(obj, function(res) {
         let id = res.id;
         obj.id = id;
@@ -137,7 +134,6 @@ const bookmarkList = function() {
         render();
       };
       api.deleteBookmark(id, callback);
-      console.log(id);
     });
   }
 

@@ -20,8 +20,10 @@ header {
 ----------------------------------------------------------------*/
 
 .bookmark {
-    border: black;
-    border-style: solid;
+    /* border: black;
+    border-style: solid; */
+    box-shadow: 2px 3px 4px 0px rgba(0,0,0,0.75);
+    margin: 20px;
 }
 
 .remove {
