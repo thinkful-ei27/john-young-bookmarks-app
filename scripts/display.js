@@ -181,6 +181,7 @@ const bookmarkList = function() {
   function handleAddBookmarkClicked() {
     $('.js-sidebar').on('click', '.js-add-bookmark', function(e) {
       e.preventDefault();
+      store.error = undefined;
       store.add = !store.add;
       render();
     });
