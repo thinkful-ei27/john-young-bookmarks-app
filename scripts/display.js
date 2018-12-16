@@ -209,6 +209,10 @@ const bookmarkList = function() {
         store.setSuccess(true);
         store.addBookmark(obj);
         render();
+
+        // We want to display a success message, THEN render back to bookmarks
+        store.add = !store.add;
+        setTimeout(render, 1000);
       }, function(err) {
         store.setError(err);
         render();
